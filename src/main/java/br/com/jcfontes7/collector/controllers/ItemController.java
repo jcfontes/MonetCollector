@@ -17,7 +17,7 @@ public class ItemController {
     @Autowired
     private ItemService itemService;
 
-    @GetMapping
+    @GetMapping("/filter")
     public List<Item> findByContainingName(@RequestParam("name") String name){
         return itemService.findNameContaining(name);
     }
