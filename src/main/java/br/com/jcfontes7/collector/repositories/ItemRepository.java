@@ -10,7 +10,5 @@ import java.util.List;
 @Repository
 public interface ItemRepository extends MongoRepository<Item, String> {
 
-    Item findByName(String name);
-
     List<Item> findByNameContaining(String name);
 }

@@ -13,6 +13,10 @@ public class ItemService {
     @Autowired
     private ItemRepository itemRepository;
 
+    public List<Item> findAll() {
+        return itemRepository.findAll();
+    }
+
     public List<Item> findNameContaining(String name){
         return itemRepository.findByNameContaining(name);
     }
@@ -21,23 +25,7 @@ public class ItemService {
         return itemRepository.findOne(id);
     }
 
-    public Item findByName(String name) {
-        Item itemR =  itemRepository.findByName(name);
-
-        if(itemR != null && !itemR.getId().equalsIgnoreCase("")){
-            return itemR;
-        }else {
-            return new Item();
-        }
-    }
-
     public void save(Item item){
-        Item itemR =  itemRepository.findByName(item.getName());
-
-        if(itemR != null && !itemR.getId().equalsIgnoreCase("")){
-            item.setId(itemR.getId());
-        }
-
         itemRepository.save(item);
     }
 

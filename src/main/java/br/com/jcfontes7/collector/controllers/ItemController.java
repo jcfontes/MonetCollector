@@ -18,8 +18,13 @@ public class ItemController {
     private ItemService itemService;
 
     @GetMapping
-    public List<Item> findAll(@RequestParam("name") String name){
+    public List<Item> findByContainingName(@RequestParam("name") String name){
         return itemService.findNameContaining(name);
+    }
+
+    @GetMapping
+    public List<Item> findAll(){
+        return itemService.findAll();
     }
 
     @GetMapping("/{id}")
