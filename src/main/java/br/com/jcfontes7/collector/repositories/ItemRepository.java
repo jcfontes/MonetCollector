@@ -11,4 +11,8 @@ import java.util.List;
 public interface ItemRepository extends MongoRepository<Item, String> {
 
     List<Item> findByNameContaining(String name);
+
+    @Query("{'category.name': ?0}")
+    List<Item> findByCategoryName(String categoryName);
+
 }

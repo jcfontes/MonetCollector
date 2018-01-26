@@ -6,22 +6,22 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.List;
+
 @Document
-public class Item {
+public class Category {
 
     @Id
     private String id;
-
     private String name;
-
     private String description;
 
-    private Category category;
+    private List<Item> items;
 
-    public void update(Item item) {
-        this.name = item.getName() != null ? this.name = item.getName() : this.name;
-        this.description = item.getDescription() != null ? this.description = item.getDescription() : this.description;
-        this.category = item.getCategory() != null ? this.category = item.getCategory() : this.category;
+    public void update(Category category) {
+        this.name = category.getName() != null ? this.name = category.getName() : this.name;
+        this.description = category.getDescription() != null ? this.description = category.getDescription() : this.description;
+        this.items = category.getItems() != null ? this.items = this.getItems() : this.items;
     }
 
     public String getId() {
@@ -48,12 +48,12 @@ public class Item {
         this.description = description;
     }
 
-    public Category getCategory() {
-        return category;
+    public List<Item> getItems() {
+        return items;
     }
 
-    public void setCategory(Category category) {
-        this.category = category;
+    public void setItems(List<Item> items) {
+        this.items = items;
     }
 
     @Override
