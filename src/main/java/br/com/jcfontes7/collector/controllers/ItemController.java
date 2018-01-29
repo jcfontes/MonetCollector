@@ -8,8 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @CrossOrigin
@@ -24,11 +24,9 @@ public class ItemController {
         List<Item> items = this.service.findNameContaining(name);
 
         if (items != null && !items.isEmpty()) {
-            List<ItemPresenter> presenters = new ArrayList<>();
-            for (Item item : items) {
-                presenters.add(new ItemPresenter(item));
-            }
-            return presenters;
+            return items.stream()
+                    .map(ItemPresenter::new)
+                    .collect(Collectors.toList());
         }
         return null;
     }
@@ -38,11 +36,9 @@ public class ItemController {
         List<Item> items = this.service.findAll();
 
         if (items != null && !items.isEmpty()) {
-            List<ItemPresenter> presenters = new ArrayList<>();
-            for (Item item : items) {
-                presenters.add(new ItemPresenter(item));
-            }
-            return presenters;
+            return items.stream()
+                    .map(ItemPresenter::new)
+                    .collect(Collectors.toList());
         }
         return null;
     }

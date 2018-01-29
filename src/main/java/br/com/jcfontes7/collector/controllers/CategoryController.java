@@ -10,6 +10,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+
+import static org.springframework.http.HttpStatus.NO_CONTENT;
 
 @RestController
 @CrossOrigin
@@ -24,11 +27,9 @@ public class CategoryController {
         List<Category> categories = this.service.findNameContaining(name);
 
         if (categories != null && !categories.isEmpty()) {
-            List<CategoryPresenter> presenters = new ArrayList<>();
-            for (Category category : categories) {
-                presenters.add(new CategoryPresenter(category));
-            }
-            return presenters;
+            return categories.stream()
+                    .map(CategoryPresenter::new)
+                    .collect(Collectors.toList());
         }
         return null;
     }
@@ -38,11 +39,9 @@ public class CategoryController {
         List<Category> categories = this.service.findAll();
 
         if (categories != null && !categories.isEmpty()) {
-            List<CategoryPresenter> presenters = new ArrayList<>();
-            for (Category category : categories) {
-                presenters.add(new CategoryPresenter(category));
-            }
-            return presenters;
+            return categories.stream()
+                    .map(CategoryPresenter::new)
+                    .collect(Collectors.toList());
         }
         return null;
     }
