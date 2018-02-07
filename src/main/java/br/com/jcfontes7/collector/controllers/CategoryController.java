@@ -6,13 +6,11 @@ import br.com.jcfontes7.collector.presenters.CategoryPresenter;
 import br.com.jcfontes7.collector.services.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-
-import static org.springframework.http.HttpStatus.NO_CONTENT;
 
 @RestController
 @CrossOrigin
@@ -23,33 +21,39 @@ public class CategoryController {
     private CategoryService service;
 
     @GetMapping("/filter")
-    public List<CategoryPresenter> findByContainingName(@RequestParam("name") String name) {
+    public ResponseEntity<List<CategoryPresenter>> findByContainingName(@RequestParam("name") String name) {
         List<Category> categories = this.service.findNameContaining(name);
 
         if (categories != null && !categories.isEmpty()) {
-            return categories.stream()
+            List<CategoryPresenter> categoriesPresenter = categories.stream()
                     .map(CategoryPresenter::new)
                     .collect(Collectors.toList());
+
+            return new ResponseEntity<>(categoriesPresenter, HttpStatus.OK);
         }
-        return null;
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @GetMapping
-    public List<CategoryPresenter> findAll() {
+    public ResponseEntity<List<CategoryPresenter>> findAll() {
         List<Category> categories = this.service.findAll();
 
         if (categories != null && !categories.isEmpty()) {
-            return categories.stream()
+            List<CategoryPresenter> categoriesPresenter = categories.stream()
                     .map(CategoryPresenter::new)
                     .collect(Collectors.toList());
+
+            return new ResponseEntity<>(categoriesPresenter, HttpStatus.OK);
         }
-        return null;
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @GetMapping("/{id}")
-    public CategoryPresenter findById(@PathVariable("id") String id) {
+    public ResponseEntity<CategoryPresenter> findById(@PathVariable("id") String id) {
         Category category = this.service.findById(id);
-        return category != null ? new CategoryPresenter(category) : null;
+
+        return category != null ? new ResponseEntity<>(new CategoryPresenter(category), HttpStatus.OK)
+                : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @PostMapping
@@ -59,11 +63,13 @@ public class CategoryController {
     }
 
     @PutMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void update(@PathVariable("id") String id, @RequestBody CategoryParameter parameter) {
         this.service.update(parameter.convert(id));
     }
 
     @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable("id") String id) {
         this.service.delete(id);
     }
