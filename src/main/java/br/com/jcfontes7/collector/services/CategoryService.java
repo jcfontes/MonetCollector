@@ -23,7 +23,7 @@ public class CategoryService {
     }
 
     public List<Category> findByNameContaining(String name){
-        return this.repository.findByNameContaining(name);
+        return this.repository.findByNameContainingIgnoreCase(name);
     }
 
     public Category findById(String id) {
