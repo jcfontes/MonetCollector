@@ -22,8 +22,8 @@ public class CategoryService {
         return this.repository.findAll();
     }
 
-    public List<Category> findNameContaining(String name){
-        return this.repository.findByNameContaining(name);
+    public List<Category> findByNameIsContaining(String name){
+        return this.repository.findByNameIsContaining(name);
     }
 
     public Category findById(String id) {

@@ -21,8 +21,8 @@ public class CategoryController {
     private CategoryService service;
 
     @GetMapping("/filter")
-    public ResponseEntity<List<CategoryPresenter>> findByContainingName(@RequestParam("name") String name) {
-        List<Category> categories = this.service.findNameContaining(name);
+    public ResponseEntity<List<CategoryPresenter>> findByNameIsContaining(@RequestParam("name") String name) {
+        List<Category> categories = this.service.findByNameIsContaining(name);
 
         if (categories != null && !categories.isEmpty()) {
             List<CategoryPresenter> categoriesPresenter = categories.stream()
